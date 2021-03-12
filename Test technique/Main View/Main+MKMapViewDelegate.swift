@@ -11,18 +11,18 @@ extension MainViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "test") {
-            
-            return annotationView
-
+        var annotationView: MKMarkerAnnotationView?
+        
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "test") as? MKMarkerAnnotationView {
+            annotationView = dequeuedAnnotationView
+            annotationView?.annotation = annotation
         } else {
-            let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "test")
-            annotationView.canShowCallout = true
-            annotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-
-            return annotationView
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "test")
         }
         
+        annotationView?.canShowCallout = true
+        annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        return annotationView
     }
     
     

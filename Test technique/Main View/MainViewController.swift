@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 protocol MainViewDelegate: class {
-    func reload()
+    func loadDataToMapView()
 }
 
 class MainViewController: UIViewController, MainViewDelegate {
@@ -117,7 +117,7 @@ class MainViewController: UIViewController, MainViewDelegate {
                 
                 let annotationLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                 let annotation = LocationMark(coordinate: annotationLocation,
-                                              title: loc.city,
+                                              title: loc.city.safelyUnwrappedValue,
                                               subtitle: loc.location,
                                               ID: loc.locationId!)
                 
@@ -127,9 +127,6 @@ class MainViewController: UIViewController, MainViewDelegate {
         }
     }
     
-    func reload() {
-        loadDataToMapView()
-    }
     
     //MARK: - Navigation
     

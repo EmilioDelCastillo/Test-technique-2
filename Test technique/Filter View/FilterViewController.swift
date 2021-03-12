@@ -49,7 +49,7 @@ class FilterViewController: UIViewController {
         AppData.shared.sensorType = SensorType.allCases[sensorTypePicker.selectedRow(inComponent: 0)]
         AppData.shared.entity = Entity.allCases[entityPicker.selectedRow(inComponent: 0)]
         
-        delegate?.reload()
+        delegate?.loadDataToMapView()
         dismiss(animated: true, completion: nil)
     }
     
