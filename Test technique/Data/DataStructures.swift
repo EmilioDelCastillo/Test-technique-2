@@ -63,3 +63,16 @@ struct Locations: Codable {
     var meta: Meta?
     var results: [Location]?
 }
+
+enum SensorType: String, CaseIterable {
+    case all = "all"
+    case reference = "reference grade"
+    case lowCost = "low-cost sensor"
+}
+
+enum Entity: String, CaseIterable {
+    case all
+    case government
+    case community
+    case research
+}

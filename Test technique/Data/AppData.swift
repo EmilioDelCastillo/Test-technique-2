@@ -12,6 +12,11 @@ class AppData {
     var countries: [Country]!
     var locations: [Location]!
     
+    var isMobile = false
+    var isAnalysis = false
+
+    var sensorType: SensorType = .reference
+    var entity: Entity = .government
     
     /**
      Stores the countries from the API in RAM
@@ -43,11 +48,10 @@ class AppData {
     }
     
     
-    
-    
     func getData(for countryCode: String, completion: @escaping (Error?) -> Void) {
         let limit = 5000
         
+        // Create request
         var components = URLComponents(string: "https://docs.openaq.org/v2/measurements/")!
         components.queryItems = [
             URLQueryItem(name: "date_from",  value: "2021-03-01T00:00:00+00:00"),
@@ -60,11 +64,17 @@ class AppData {
             URLQueryItem(name: "radius",     value: "100000"),
             URLQueryItem(name: "country_id", value: countryCode),
             URLQueryItem(name: "order_by",   value: "location"),
-            URLQueryItem(name: "isMobile",   value: "false"),
-            URLQueryItem(name: "isAnalysis", value: "false"),
-            URLQueryItem(name: "entity",     value: "government"),
-            URLQueryItem(name: "sensorType", value: "reference grade")
+            URLQueryItem(name: "isMobile",   value: isMobile.description),
+            URLQueryItem(name: "isAnalysis", value: isAnalysis.description),
         ]
+        
+        if entity != .all {
+            components.queryItems?.append(URLQueryItem(name: "entity",     value: entity.rawValue))
+        }
+        
+        if sensorType != .all {
+            components.queryItems?.append(URLQueryItem(name: "sensorType", value: sensorType.rawValue))
+        }
         
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: ":", with: "%3A")

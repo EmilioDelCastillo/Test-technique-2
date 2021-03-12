@@ -8,8 +8,11 @@
 import UIKit
 import MapKit
 
-class MainViewController: UIViewController {
+protocol MainViewDelegate: class {
+    func reload()
+}
 
+class MainViewController: UIViewController, MainViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var countrySearchBar: UITextField!
@@ -72,7 +75,9 @@ class MainViewController: UIViewController {
         Puts the markers on the map view, if a country code is set
      */
     internal func loadDataToMapView() {
+        
         if let countryCode = currentCountryCode {
+            
             mapView.removeAnnotations(mapView.annotations)
             
             AppData.shared.getData(for: countryCode) { error in
@@ -122,10 +127,16 @@ class MainViewController: UIViewController {
         }
     }
     
+    func reload() {
+        loadDataToMapView()
+    }
+    
     //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showInfo" {
+        
+        switch segue.identifier {
+        case "showInfo":
             if let destination = segue.destination as? InfoViewController {
                 
                 // Get the location corresponding to the mark identifier
@@ -143,6 +154,12 @@ class MainViewController: UIViewController {
                     destination.sensorType = location.sensorType
                 }
             }
+        case "showFilters":
+            if let destination = segue.destination as? FilterViewController {
+                destination.delegate = self
+            }
+        default:
+            print("Unknown segue")
         }
     }
 
