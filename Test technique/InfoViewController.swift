@@ -60,4 +60,19 @@ class InfoViewController: UIViewController {
         }
         
     }
+    
+    @IBAction func doneAction(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let VC = self.presentingViewController as? MainViewController {
+            
+            // There may not be one!
+            if let annotation = VC.mapView.selectedAnnotations.first {
+                VC.mapView.deselectAnnotation(annotation, animated: true)
+            }
+        }
+    }
 }
