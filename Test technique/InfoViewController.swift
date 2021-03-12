@@ -33,6 +33,9 @@ class InfoViewController: UIViewController {
     var sensorType: String?
     @IBOutlet weak var sensorTypeLabel: UILabel!
     
+    var unit: String?
+    @IBOutlet weak var unitLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,6 +44,7 @@ class InfoViewController: UIViewController {
         parameterLabel.text  = parameter.safelyUnwrappedValue
         entityLabel.text     = entity.safelyUnwrappedValue
         sensorTypeLabel.text = sensorType.safelyUnwrappedValue
+        unitLabel.text       = unit.safelyUnwrappedValue
         valueLabel.text      = value?.description
 
         if let mobile = isMobile {

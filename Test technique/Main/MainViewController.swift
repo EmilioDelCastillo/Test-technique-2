@@ -136,6 +136,7 @@ class MainViewController: UIViewController {
                     destination.location = location.location
                     destination.parameter = location.parameter
                     destination.value = location.value
+                    destination.unit = location.unit
                     destination.isMobile = location.isMobile
                     destination.isAnalysis = location.isAnalysis
                     destination.entity = location.entity
