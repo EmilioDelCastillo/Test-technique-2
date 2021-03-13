@@ -25,7 +25,7 @@ class AppData {
     func loadCountries(completion: @escaping (Error?) -> Void) {
         let url = URL(string: "https://docs.openaq.org/v2/countries")
         
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             
             if error == nil {
     
@@ -44,7 +44,12 @@ class AppData {
             } else {
                 completion(error)
             }
-        }.resume()
+        }
+        
+        // Prevent the UI from freezing
+        DispatchQueue.global(qos: .userInitiated).async {
+            task.resume()
+        }
     }
     
     
@@ -82,7 +87,7 @@ class AppData {
         
         let requestURL = URLRequest(url: components.url!)
         
-        URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
             
             if error == nil {
     
@@ -103,7 +108,12 @@ class AppData {
             } else {
                 completion(error)
             }
-        }.resume()
+        }
+        
+        // Prevent the UI from freezing
+        DispatchQueue.global(qos: .userInitiated).async {
+            task.resume()
+        }
         
     }
     

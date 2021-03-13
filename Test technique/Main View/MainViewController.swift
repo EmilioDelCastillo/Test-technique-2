@@ -84,12 +84,13 @@ class MainViewController: UIViewController, MainViewDelegate {
                 if error != nil {
                     print(error!.localizedDescription)
                 } else {
-                    self.createMarkers()
-                    
-                    // The only way to make the annotations appear
-                    DispatchQueue.main.async {
-                        self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+                    self.createMarkers {
+                        // The only way to make the annotations appear
+                        DispatchQueue.main.async {
+                            self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+                        }
                     }
+                    
                 }
             }
             
@@ -109,21 +110,26 @@ class MainViewController: UIViewController, MainViewDelegate {
         
     }
     
-    internal func createMarkers() {
+    internal func createMarkers(completion: @escaping () -> Void) {
 
         //FIXME: This needs to be thought in order to avoid duplicates 🤔
-        for loc in AppData.shared.locations {
-            if let lat = loc.coordinates?.latitude, let lon = loc.coordinates?.longitude {
-                
-                let annotationLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                let annotation = LocationMark(coordinate: annotationLocation,
-                                              title: loc.city.safelyUnwrappedValue,
-                                              subtitle: loc.location,
-                                              ID: loc.locationId!)
-                
-                mapView.addAnnotation(annotation)
-                
+        
+        // This operation can be expensive
+        DispatchQueue.global(qos: .userInteractive).async {
+            for loc in AppData.shared.locations {
+                if let lat = loc.coordinates?.latitude, let lon = loc.coordinates?.longitude {
+                    
+                    let annotationLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                    let annotation = LocationMark(coordinate: annotationLocation,
+                                                  title: loc.city.safelyUnwrappedValue,
+                                                  subtitle: loc.location,
+                                                  ID: loc.locationId!)
+                    
+                    self.mapView.addAnnotation(annotation)
+                    
+                }
             }
+            completion()
         }
     }
 }
