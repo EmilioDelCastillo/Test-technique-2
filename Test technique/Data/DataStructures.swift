@@ -76,3 +76,9 @@ enum Entity: String, CaseIterable {
     case community
     case research
 }
+
+enum ResultError: Error {
+    case negativeCount
+    case noResult
+    case unknownError
+}

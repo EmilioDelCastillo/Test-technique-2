@@ -87,26 +87,37 @@ class AppData {
         
         let requestURL = URLRequest(url: components.url!)
         
-        let task = URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: requestURL) { (data, response, sessionError) in
             
-            if error == nil {
+            if sessionError == nil {
     
                 if let myData = data {
                     let decoder = JSONDecoder()
-                    if let json = try? decoder.decode(Locations.self, from: myData) {
-                        
-                        // TODO: Handle the possible error
-                        self.locations = json.results!
-                        print("Found:", json.meta!.found!, "Limit", json.meta!.limit!)
-                        
-                        completion(nil)
                     
-                    } else {
+                    do {
+                        let json = try decoder.decode(Locations.self, from: myData)
+                        if let results = json.results {
+                            self.locations = results
+                            
+                            if json.meta!.found! == 0 {
+                                throw ResultError.noResult
+                            }
+                            if json.meta!.found! < 0 {
+                                throw ResultError.negativeCount
+                            }
+                            print("Found:", json.meta!.found!, "Limit", json.meta!.limit!)
+                            completion(nil)
+                        
+                        } else {
+                            
+                            completion(ResultError.unknownError)
+                        }
+                    } catch {
                         completion(error)
                     }
                 }
             } else {
-                completion(error)
+                completion(sessionError)
             }
         }
         

@@ -50,20 +50,19 @@ class MainViewController: UIViewController, MainViewDelegate {
             } else {
                 
                 // Notify the user
-                let alert = UIAlertController(title: "Unable to load the countries",
-                                              message: "We were unable to load the countries.",
-                                              preferredStyle: .alert)
-                
-                // Not very sure about this...
-                alert.addAction(UIAlertAction(title: "Try again",
-                                              style: .default,
-                                              handler: { (alert) in
-                                                self.loadCountries()
-                                              }))
-                
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                
                 DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Unable to load the countries",
+                                                  message: "We were unable to load the countries.",
+                                                  preferredStyle: .alert)
+                    
+                    // Not very sure about this...
+                    alert.addAction(UIAlertAction(title: "Try again",
+                                                  style: .default,
+                                                  handler: { (alert) in
+                                                    self.loadCountries()
+                                                  }))
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
                 
@@ -82,7 +81,31 @@ class MainViewController: UIViewController, MainViewDelegate {
             
             AppData.shared.getData(for: countryCode) { error in
                 if error != nil {
-                    print(error!.localizedDescription)
+                    var errorMessage: String!
+                    
+                    
+                    if let test = error as? ResultError {
+                        
+                        switch test {
+                        case .negativeCount:
+                            errorMessage = "Negative amount found."
+                        case .noResult:
+                            errorMessage = "No results."
+                        case .unknownError:
+                            errorMessage = "Unknown error."
+                        }
+                        
+                    } else {
+                        errorMessage = error?.localizedDescription
+                    }
+                    
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
+                        alert.message = errorMessage
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
                 } else {
                     self.createMarkers {
                         // The only way to make the annotations appear
@@ -95,14 +118,15 @@ class MainViewController: UIViewController, MainViewDelegate {
             }
             
         } else {
+            
             // Notify the user
-            let alert = UIAlertController(title: "Country not found",
-                                          message: nil,
-                                          preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            
             DispatchQueue.main.async {
+                
+                let alert = UIAlertController(title: "Country not found",
+                                              message: nil,
+                                              preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
             
