@@ -11,13 +11,14 @@ class AppData {
     static var shared = AppData()
     var countries: [Country]!
     var locations: [Location]!
+    var parameters: [Parameter]!
     
     var isMobile = false
     var isAnalysis = false
 
     var sensorType: SensorType = .reference
     var entity: Entity = .government
-    
+    var parameter: String = "pm10"
     /**
      Stores the countries from the API in RAM
      - Parameter completion: The closure to be executed once the data arrives. If there's an error, it is given as the argument.
@@ -35,6 +36,36 @@ class AppData {
                         
                         // TODO: Handle the possible error
                         self.countries = json.results!
+                        completion(nil)
+                        
+                    } else {
+                        completion(error)
+                    }
+                }
+            } else {
+                completion(error)
+            }
+        }
+        
+        // Prevent the UI from freezing
+        DispatchQueue.global(qos: .userInitiated).async {
+            task.resume()
+        }
+    }
+    
+    func loadParameters(completion: @escaping (Error?) -> Void) {
+        let url = URL(string: "https://docs.openaq.org/v2/parameters")
+        
+        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            
+            if error == nil {
+    
+                if let myData = data {
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(Parameters.self, from: myData) {
+                        
+                        // TODO: Handle the possible error
+                        self.parameters = json.results!
                         completion(nil)
                         
                     } else {
@@ -71,6 +102,7 @@ class AppData {
             URLQueryItem(name: "order_by",   value: "location"),
             URLQueryItem(name: "isMobile",   value: isMobile.description),
             URLQueryItem(name: "isAnalysis", value: isAnalysis.description),
+            URLQueryItem(name: "parameter",  value: parameter)
         ]
         
         if entity != .all {
