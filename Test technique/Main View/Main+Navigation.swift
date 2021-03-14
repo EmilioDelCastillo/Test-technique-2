@@ -20,7 +20,12 @@ extension MainViewController {
                 }) {
                     destination.city = location.city
                     destination.location = location.location
-                    destination.parameter = location.parameter
+                    
+                    let parameterDisplayName = AppData.shared.parameters?.first { (param) -> Bool in
+                        param.name == AppData.shared.parameter
+                    }
+                    destination.parameter = parameterDisplayName?.displayName
+                    
                     destination.value = location.value
                     destination.unit = location.unit
                     destination.isMobile = location.isMobile

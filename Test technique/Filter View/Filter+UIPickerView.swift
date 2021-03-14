@@ -21,11 +21,9 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         case 1: // Entity picker
             return Entity.allCases.count
-        case 2:
-            if let nbRows = AppData.shared.parameters?.count {
-                return nbRows
-            }
-            return 0
+            
+        case 2: // Parameter picker
+            return AppData.shared.parameters.count
             
         default:
             assert(false, "Unknown tag \(pickerView.tag)")
@@ -42,7 +40,7 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         case 1: // Entity picker
             return Entity.allCases[row].rawValue
             
-        case 2:
+        case 2: // Parameter picker
             return AppData.shared.parameters[row].displayName
             
         default:

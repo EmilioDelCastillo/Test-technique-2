@@ -19,6 +19,7 @@ class AppData {
     var sensorType: SensorType = .reference
     var entity: Entity = .government
     var parameter: String = "pm10"
+    
     /**
      Stores the countries from the API in RAM
      - Parameter completion: The closure to be executed once the data arrives. If there's an error, it is given as the argument.
@@ -64,8 +65,14 @@ class AppData {
                     let decoder = JSONDecoder()
                     if let json = try? decoder.decode(Parameters.self, from: myData) {
                         
+                        /* When handling non core parameters, some parameters' names are duplicates
+                         and the /measures route can't handle parameter id so I'm contrained to filter
+                         them out.
+                         */
                         // TODO: Handle the possible error
-                        self.parameters = json.results!
+                        self.parameters = json.results!.filter({ (element) -> Bool in
+                            element.isCore!
+                        })
                         completion(nil)
                         
                     } else {
@@ -85,24 +92,22 @@ class AppData {
     
     
     func getData(for countryCode: String, completion: @escaping (Error?) -> Void) {
-        let limit = 5000
+        let limit = 100
         
         // Create request
         var components = URLComponents(string: "https://docs.openaq.org/v2/measurements/")!
         components.queryItems = [
-            URLQueryItem(name: "date_from",  value: "2021-03-01T00:00:00+00:00"),
-            URLQueryItem(name: "date_to",    value: "2021-03-11T00:30:00+00:00"),
-            URLQueryItem(name: "limit",      value: limit.description),
-            URLQueryItem(name: "page",       value: "1"),
-            URLQueryItem(name: "offset",     value: "0"),
-            URLQueryItem(name: "sort",       value: "desc"),
-            URLQueryItem(name: "has_geo",    value: "true"),
-            URLQueryItem(name: "radius",     value: "100000"),
-            URLQueryItem(name: "country_id", value: countryCode),
-            URLQueryItem(name: "order_by",   value: "location"),
-            URLQueryItem(name: "isMobile",   value: isMobile.description),
-            URLQueryItem(name: "isAnalysis", value: isAnalysis.description),
-            URLQueryItem(name: "parameter",  value: parameter)
+            URLQueryItem(name: "date_from",    value: "2021-03-14"),
+            URLQueryItem(name: "limit",        value: limit.description),
+            URLQueryItem(name: "page",         value: "1"),
+            URLQueryItem(name: "sort",         value: "desc"),
+            URLQueryItem(name: "has_geo",      value: "true"),
+            URLQueryItem(name: "country_id",   value: countryCode),
+            URLQueryItem(name: "sort",         value: "asc"),
+            URLQueryItem(name: "order_by",     value: "datetime"),
+            URLQueryItem(name: "isMobile",     value: isMobile.description),
+            URLQueryItem(name: "isAnalysis",   value: isAnalysis.description),
+            URLQueryItem(name: "parameter",    value: parameter)
         ]
         
         if entity != .all {

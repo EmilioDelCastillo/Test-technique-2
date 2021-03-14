@@ -45,15 +45,12 @@ class FilterViewController: UIViewController {
         }
         entityPicker.selectRow(row ?? 0, inComponent: 0, animated: true)
         
-        loadParameters() {
-            DispatchQueue.main.async {
-                self.parameterPicker.reloadAllComponents()
-                row = AppData.shared.parameters.firstIndex(where: { (element) -> Bool in
-                    element.name == AppData.shared.parameter
-                })
-                self.parameterPicker.selectRow(row ?? 0, inComponent: 0, animated: true)
-            }
-        }
+        
+        row = AppData.shared.parameters.firstIndex(where: { (element) -> Bool in
+            element.name == AppData.shared.parameter
+        })
+        parameterPicker.selectRow(row ?? 0, inComponent: 0, animated: true)
+
     }
     
     @IBAction func applyFilters(_ sender: UIButton) {
@@ -69,40 +66,4 @@ class FilterViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    private func loadParameters(completion: (() -> Void)? = nil ) {
-        
-        // It's not necessary to load the parameters every time
-        if AppData.shared.parameters == nil {
-            AppData.shared.loadParameters { (error) in
-                if error == nil {
-                    
-                    completion?()
-                    
-                } else {
-                    
-                    // Notify the user
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Unable to load the parameters",
-                                                      message: nil,
-                                                      preferredStyle: .alert)
-                        
-                        // Not very sure about this...
-                        alert.addAction(UIAlertAction(title: "Try again",
-                                                      style: .default,
-                                                      handler: { (alert) in
-                                                        self.loadParameters()
-                                                      }))
-                        
-                        alert.addAction(UIAlertAction(title: "OK", style: .default))
-                        self.present(alert, animated: true)
-                    }
-                    
-                }
-            }
-            
-        } else {
-            completion?()
-        }
-        
-    }
 }
