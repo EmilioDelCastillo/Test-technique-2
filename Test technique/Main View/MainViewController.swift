@@ -36,6 +36,8 @@ class MainViewController: UIViewController, MainViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var countryPicker: UIPickerView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     internal var currentCountryCode: String? {
         didSet {
             loadDataToMapView()
@@ -107,6 +109,9 @@ class MainViewController: UIViewController, MainViewDelegate {
         Puts the markers on the map view, if a country code is set
      */
     internal func loadDataToMapView() {
+        DispatchQueue.main.async {
+            self.spinner.startAnimating()
+        }
         
         if let countryCode = currentCountryCode {
             
@@ -133,6 +138,7 @@ class MainViewController: UIViewController, MainViewDelegate {
                     }
                     
                     DispatchQueue.main.async {
+                        self.spinner.stopAnimating()
                         let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
                         alert.message = errorMessage
                         alert.addAction(UIAlertAction(title: "Ok", style: .default))
@@ -144,6 +150,7 @@ class MainViewController: UIViewController, MainViewDelegate {
                         // The only way to make the annotations appear
                         DispatchQueue.main.async {
                             self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+                            self.spinner.stopAnimating()
                         }
                     }
                     

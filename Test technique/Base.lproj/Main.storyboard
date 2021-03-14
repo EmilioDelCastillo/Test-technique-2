@@ -38,29 +38,39 @@
                                     <constraint firstAttribute="width" constant="330" id="Fue-CI-YkQ"/>
                                 </constraints>
                             </pickerView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="6M9-Sn-j7u">
+                                <rect key="frame" x="0.0" y="-61.5" width="414" height="1019"/>
+                                <color key="backgroundColor" systemColor="secondaryLabelColor"/>
+                                <color key="color" systemColor="systemBackgroundColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="6M9-Sn-j7u" firstAttribute="centerY" secondItem="vNl-dh-76G" secondAttribute="centerY" id="0sC-dx-exe"/>
                             <constraint firstItem="vNl-dh-76G" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="3fM-uE-BZD"/>
                             <constraint firstAttribute="trailing" secondItem="vNl-dh-76G" secondAttribute="trailing" id="4V1-Ob-ZF7"/>
+                            <constraint firstItem="6M9-Sn-j7u" firstAttribute="centerX" secondItem="vNl-dh-76G" secondAttribute="centerX" id="5Iv-Je-f2d"/>
                             <constraint firstItem="hig-MX-rz4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Bfq-GS-HMm"/>
+                            <constraint firstItem="6M9-Sn-j7u" firstAttribute="height" secondItem="vNl-dh-76G" secondAttribute="height" multiplier="1.13768" id="Ftr-Vj-NQh"/>
                             <constraint firstAttribute="top" secondItem="vNl-dh-76G" secondAttribute="top" id="KXH-FB-RwZ"/>
                             <constraint firstItem="3VB-oo-kdY" firstAttribute="centerY" secondItem="hig-MX-rz4" secondAttribute="centerY" id="PaM-mJ-M7a"/>
                             <constraint firstItem="vNl-dh-76G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ePq-H0-hxy"/>
                             <constraint firstItem="hig-MX-rz4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="fgQ-PM-mFq"/>
+                            <constraint firstItem="6M9-Sn-j7u" firstAttribute="width" secondItem="vNl-dh-76G" secondAttribute="width" id="hD0-5v-WDu"/>
                             <constraint firstItem="3VB-oo-kdY" firstAttribute="leading" secondItem="hig-MX-rz4" secondAttribute="trailing" constant="10" id="txL-ds-uWf"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="countryPicker" destination="hig-MX-rz4" id="YCM-iH-duT"/>
                         <outlet property="mapView" destination="vNl-dh-76G" id="Ip6-Ph-aR0"/>
+                        <outlet property="spinner" destination="6M9-Sn-j7u" id="XsO-rh-g3d"/>
                         <segue destination="Gzw-l7-NCE" kind="presentation" identifier="showInfo" id="MKD-4T-cao"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1788.4057971014495" y="1030.5803571428571"/>
+            <point key="canvasLocation" x="-1788.6160714285713" y="1030.4347826086957"/>
         </scene>
         <!--Filter View Controller-->
         <scene sceneID="J1b-mN-Xfd">
