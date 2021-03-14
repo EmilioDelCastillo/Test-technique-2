@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-protocol MainViewDelegate: class {
+protocol MainViewDelegate: AnyObject {
     func loadDataToMapView()
 }
 

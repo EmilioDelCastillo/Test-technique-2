@@ -45,7 +45,8 @@ class InfoViewController: UIViewController {
         entityLabel.text     = entity.safelyUnwrappedValue
         sensorTypeLabel.text = sensorType.safelyUnwrappedValue
         unitLabel.text       = unit.safelyUnwrappedValue
-        valueLabel.text      = value?.description
+        let formattedValue   = String(format: "%.4f", value ?? 0)
+        valueLabel.text      = formattedValue
 
         if let mobile = isMobile {
             mobileLabel.text = (mobile) ? "Mobile" : "Not mobile"
