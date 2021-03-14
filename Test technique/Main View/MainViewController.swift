@@ -12,19 +12,44 @@ protocol MainViewDelegate: class {
     func loadDataToMapView()
 }
 
+extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return AppData.shared.countries?.count ?? 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return AppData.shared.countries[row].name
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let countryName = AppData.shared.countries[row].name!
+        currentCountryCode = AppData.shared.getCountryCode(countryName: countryName)
+    }
+    
+}
+
 class MainViewController: UIViewController, MainViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var countrySearchBar: UITextField!
-    internal var currentCountryCode: String?
+    @IBOutlet weak var countryPicker: UIPickerView!
+    internal var currentCountryCode: String? {
+        didSet {
+            loadDataToMapView()
+        }
+    }
     
     private var currentRegion: MKCoordinateRegion?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        countrySearchBar.delegate = self
-        countrySearchBar.text = "France"
+        
+        countryPicker.delegate = self
+        countryPicker.dataSource = self
         
         // Initial setup
         let france = CLLocationCoordinate2D(latitude: 46.2276,longitude: 2.2137)
@@ -45,7 +70,15 @@ class MainViewController: UIViewController, MainViewDelegate {
         AppData.shared.loadCountries { (error) in
             if error == nil {
                 self.currentCountryCode = AppData.shared.getCountryCode(countryName: "France")
-                self.loadDataToMapView()
+//                self.loadDataToMapView()
+                
+                DispatchQueue.main.async {
+                    self.countryPicker.reloadAllComponents()
+                    let row = AppData.shared.countries?.firstIndex { (country) -> Bool in
+                        country.name == "France"
+                    }
+                    self.countryPicker.selectRow(row ?? 0, inComponent: 0, animated: true)
+                }
                 
             } else {
                 

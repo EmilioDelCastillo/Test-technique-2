@@ -20,14 +20,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <gestureRecognizers/>
                             </mapView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="France" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="WoF-1n-IYc">
-                                <rect key="frame" x="20" y="64" width="330" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3VB-oo-kdY">
-                                <rect key="frame" x="360" y="64.5" width="34" height="33"/>
+                                <rect key="frame" x="360" y="87.5" width="34" height="33"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="U2t-oN-5gV"/>
                                     <constraint firstAttribute="width" secondItem="3VB-oo-kdY" secondAttribute="height" multiplier="1:1" id="s3z-xn-fTl"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="line.horizontal.3.decrease.circle" catalog="system"/>
@@ -35,24 +31,29 @@
                                     <segue destination="YZt-wP-2Q1" kind="presentation" identifier="showFilters" id="lIe-2w-1To"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hig-MX-rz4">
+                                <rect key="frame" x="20" y="64" width="330" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="5As-kT-Rkx"/>
+                                    <constraint firstAttribute="width" constant="330" id="Fue-CI-YkQ"/>
+                                </constraints>
+                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vNl-dh-76G" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="3fM-uE-BZD"/>
                             <constraint firstAttribute="trailing" secondItem="vNl-dh-76G" secondAttribute="trailing" id="4V1-Ob-ZF7"/>
-                            <constraint firstItem="WoF-1n-IYc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="8og-gZ-vU6"/>
-                            <constraint firstItem="3VB-oo-kdY" firstAttribute="height" secondItem="WoF-1n-IYc" secondAttribute="height" id="AmM-eE-W3o"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3VB-oo-kdY" secondAttribute="trailing" constant="20" id="Fcf-lH-OwQ"/>
+                            <constraint firstItem="hig-MX-rz4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Bfq-GS-HMm"/>
                             <constraint firstAttribute="top" secondItem="vNl-dh-76G" secondAttribute="top" id="KXH-FB-RwZ"/>
-                            <constraint firstItem="3VB-oo-kdY" firstAttribute="leading" secondItem="WoF-1n-IYc" secondAttribute="trailing" constant="10" id="VFF-em-SzH"/>
+                            <constraint firstItem="3VB-oo-kdY" firstAttribute="centerY" secondItem="hig-MX-rz4" secondAttribute="centerY" id="PaM-mJ-M7a"/>
                             <constraint firstItem="vNl-dh-76G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ePq-H0-hxy"/>
-                            <constraint firstItem="WoF-1n-IYc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="fpi-vU-Sca"/>
-                            <constraint firstItem="3VB-oo-kdY" firstAttribute="centerY" secondItem="WoF-1n-IYc" secondAttribute="centerY" id="jdV-Mf-dHv"/>
+                            <constraint firstItem="hig-MX-rz4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="fgQ-PM-mFq"/>
+                            <constraint firstItem="3VB-oo-kdY" firstAttribute="leading" secondItem="hig-MX-rz4" secondAttribute="trailing" constant="10" id="txL-ds-uWf"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="countrySearchBar" destination="WoF-1n-IYc" id="jCI-br-yI8"/>
+                        <outlet property="countryPicker" destination="hig-MX-rz4" id="YCM-iH-duT"/>
                         <outlet property="mapView" destination="vNl-dh-76G" id="Ip6-Ph-aR0"/>
                         <segue destination="Gzw-l7-NCE" kind="presentation" identifier="showInfo" id="MKD-4T-cao"/>
                     </connections>
