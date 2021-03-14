@@ -12,31 +12,16 @@ protocol MainViewDelegate: class {
     func loadDataToMapView()
 }
 
-extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return AppData.shared.countries?.count ?? 0
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return AppData.shared.countries[row].name
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let countryName = AppData.shared.countries[row].name!
-        currentCountryCode = AppData.shared.getCountryCode(countryName: countryName)
-    }
-    
-}
-
 class MainViewController: UIViewController, MainViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var countryPicker: UIPickerView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    /**
+    Timer for the country picker
+     */
+    internal var timer: Timer!
     
     internal var currentCountryCode: String? {
         didSet {
