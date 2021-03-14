@@ -44,6 +44,21 @@ struct Location: Codable {
     var sensorType: String?
 }
 
+struct Parameter: Codable {
+    var id: Int?
+    var name: String?
+    var displayName: String?
+    var description: String?
+    var preferredUnit: String?
+    var isCore: Bool?
+    var maxColorValue: Double?
+}
+
+struct Parameters: Codable {
+    var meta: Meta?
+    var results: [Parameter]?
+}
+
 struct Countries: Codable {
     var meta: Meta?
     var results: [Country]?

@@ -62,11 +62,35 @@ class MainViewController: UIViewController, MainViewDelegate {
         mapView.setRegion(currentRegion!, animated: true)
         
         loadCountries()
-        
+        loadParameters()
         
     }
     
     // MARK: - Load data
+    private func loadParameters() {
+        AppData.shared.loadParameters { (error) in
+            if error != nil {
+                
+                // Notify the user
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Unable to load the parameters",
+                                                  message: nil,
+                                                  preferredStyle: .alert)
+                    
+                    // Not very sure about this...
+                    alert.addAction(UIAlertAction(title: "Try again",
+                                                  style: .default,
+                                                  handler: { (alert) in
+                                                    self.loadParameters()
+                                                  }))
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                }
+                
+            }
+        }
+    }
     
     private func loadCountries() {
         AppData.shared.loadCountries { (error) in
