@@ -29,8 +29,6 @@ class MainViewController: UIViewController, MainViewDelegate {
         }
     }
     
-    private var currentRegion: MKCoordinateRegion?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
@@ -40,11 +38,11 @@ class MainViewController: UIViewController, MainViewDelegate {
         
         // Initial setup
         let france = CLLocationCoordinate2D(latitude: 46.2276,longitude: 2.2137)
-        currentRegion = MKCoordinateRegion(center: france,
+        let currentRegion = MKCoordinateRegion(center: france,
                                       latitudinalMeters: 1_000_000,
                                       longitudinalMeters: 1_000_000)
         
-        mapView.setRegion(currentRegion!, animated: true)
+        mapView.setRegion(currentRegion, animated: true)
         
         loadCountries()
         loadParameters()
