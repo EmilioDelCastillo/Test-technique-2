@@ -79,7 +79,6 @@ class MainViewController: UIViewController, MainViewDelegate {
         AppData.shared.loadCountries { (error) in
             if error == nil {
                 self.currentCountryCode = AppData.shared.getCountryCode(countryName: "France")
-//                self.loadDataToMapView()
                 
                 DispatchQueue.main.async {
                     self.countryPicker.reloadAllComponents()
@@ -119,64 +118,45 @@ class MainViewController: UIViewController, MainViewDelegate {
         DispatchQueue.main.async {
             self.spinner.startAnimating()
         }
+            
+        mapView.removeAnnotations(mapView.annotations)
         
-        if let countryCode = currentCountryCode {
-            
-            mapView.removeAnnotations(mapView.annotations)
-            
-            AppData.shared.getData(for: countryCode) { error in
-                if error != nil {
-                    var errorMessage: String!
+        AppData.shared.getData(for: currentCountryCode!) { error in
+            if error != nil {
+                var errorMessage: String!
+                
+                if let test = error as? ResultError {
                     
-                    
-                    if let test = error as? ResultError {
-                        
-                        switch test {
-                        case .negativeCount:
-                            errorMessage = "Negative amount found."
-                        case .noResult:
-                            errorMessage = "No results."
-                        case .unknownError:
-                            errorMessage = "Unknown error."
-                        }
-                        
-                    } else {
-                        errorMessage = error?.localizedDescription
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.spinner.stopAnimating()
-                        let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
-                        alert.message = errorMessage
-                        alert.addAction(UIAlertAction(title: "Ok", style: .default))
-                        self.present(alert, animated: true, completion: nil)
+                    switch test {
+                    case .negativeCount:
+                        errorMessage = "Negative amount found."
+                    case .noResult:
+                        errorMessage = "No results."
+                    case .unknownError:
+                        errorMessage = "Unknown error."
                     }
                     
                 } else {
-                    self.createMarkers {
-                        // The only way to make the annotations appear
-                        DispatchQueue.main.async {
-                            self.mapView.showAnnotations(self.mapView.annotations, animated: true)
-                            self.spinner.stopAnimating()
-                        }
-                    }
-                    
+                    errorMessage = error?.localizedDescription
                 }
-            }
-            
-        } else {
-            
-            // Notify the user
-            DispatchQueue.main.async {
                 
-                let alert = UIAlertController(title: "Country not found",
-                                              message: nil,
-                                              preferredStyle: .alert)
+                DispatchQueue.main.async {
+                    self.spinner.stopAnimating()
+                    let alert = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                    self.present(alert, animated: true, completion: nil)
+                }
                 
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+            } else {
+                self.createMarkers {
+                    // The only way to make the annotations appear
+                    DispatchQueue.main.async {
+                        self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+                        self.spinner.stopAnimating()
+                    }
+                }
+                
             }
-            
         }
         
     }
