@@ -18,6 +18,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var sensorTypePicker: UIPickerView!
     @IBOutlet weak var entityPicker: UIPickerView!
     @IBOutlet weak var parameterPicker: UIPickerView!
+    @IBOutlet weak var datePicker: UIDatePicker!
     
     private let radius: CGFloat = 4
     weak var delegate: MainViewDelegate?
@@ -32,6 +33,8 @@ class FilterViewController: UIViewController {
         
         parameterPicker.delegate = self
         parameterPicker.dataSource = self
+        
+        datePicker.maximumDate = Foundation.Date()
         
         mobileSwitch.setOn(AppData.shared.isMobile, animated: true)
         analysisSwitch.setOn(AppData.shared.isAnalysis, animated: true)
@@ -66,6 +69,8 @@ class FilterViewController: UIViewController {
         
         let row = parameterPicker.selectedRow(inComponent: 0)
         AppData.shared.parameter = AppData.shared.parameters[row].name!
+        
+        AppData.shared.dateToday = datePicker.date
         
         delegate?.loadDataToMapView()
         dismiss(animated: true, completion: nil)

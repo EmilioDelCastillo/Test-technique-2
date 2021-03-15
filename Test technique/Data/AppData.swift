@@ -20,6 +20,11 @@ class AppData {
     var entity: Entity = .government
     var parameter: String = "pm10"
     
+    var dateToday = Foundation.Date()
+    private var dateTomorrow: Foundation.Date {
+        Calendar.current.date(byAdding: .day, value: 1, to: dateToday)!
+    }
+    private var dateFormatter = DateFormatter()
     /**
      Stores the countries from the API in RAM
      - Parameter completion: The closure to be executed once the data arrives. If there's an error, it is given as the argument.
@@ -94,10 +99,12 @@ class AppData {
     func getData(for countryCode: String, completion: @escaping (Error?) -> Void) {
         let limit = 100
         
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         // Create request
         var components = URLComponents(string: "https://docs.openaq.org/v2/measurements/")!
         components.queryItems = [
-            URLQueryItem(name: "date_from",    value: "2021-03-14"),
+            URLQueryItem(name: "date_from",    value: dateFormatter.string(from: dateToday)),
+            URLQueryItem(name: "date_to",      value: dateFormatter.string(from: dateTomorrow)),
             URLQueryItem(name: "limit",        value: limit.description),
             URLQueryItem(name: "page",         value: "1"),
             URLQueryItem(name: "sort",         value: "desc"),
