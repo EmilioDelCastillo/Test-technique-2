@@ -93,7 +93,7 @@ class MainViewController: UIViewController, MainViewDelegate {
                 // Notify the user
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "Unable to load the countries",
-                                                  message: "We were unable to load the countries.",
+                                                  message: nil,
                                                   preferredStyle: .alert)
                     
                     // Not very sure about this...
@@ -143,7 +143,9 @@ class MainViewController: UIViewController, MainViewDelegate {
                 DispatchQueue.main.async {
                     self.spinner.stopAnimating()
                     let alert = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                        alert.dismiss(animated: true, completion: nil)
+                    }
                     self.present(alert, animated: true, completion: nil)
                 }
                 
