@@ -35,6 +35,7 @@ class FilterViewController: UIViewController {
         parameterPicker.dataSource = self
         
         datePicker.maximumDate = Foundation.Date()
+        datePicker.date = AppData.shared.dateToday
         
         mobileSwitch.setOn(AppData.shared.isMobile, animated: true)
         analysisSwitch.setOn(AppData.shared.isAnalysis, animated: true)

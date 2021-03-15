@@ -97,7 +97,7 @@ class AppData {
     
     
     func getData(for countryCode: String, completion: @escaping (Error?) -> Void) {
-        let limit = 100
+        let limit = 10000
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
         // Create request
