@@ -9,6 +9,9 @@ import UIKit
 
 class FilterViewController: UIViewController {
     
+    @IBOutlet weak var loadButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
     @IBOutlet weak var mobileSwitch: UISwitch!
     @IBOutlet weak var analysisSwitch: UISwitch!
     
@@ -16,7 +19,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var entityPicker: UIPickerView!
     @IBOutlet weak var parameterPicker: UIPickerView!
     
-    
+    private let radius: CGFloat = 4
     weak var delegate: MainViewDelegate?
     
     override func viewDidLoad() {
@@ -33,6 +36,8 @@ class FilterViewController: UIViewController {
         mobileSwitch.setOn(AppData.shared.isMobile, animated: true)
         analysisSwitch.setOn(AppData.shared.isAnalysis, animated: true)
         
+        loadButton.layer.cornerRadius = radius
+        cancelButton.layer.cornerRadius = radius
         
         var row = SensorType.allCases.firstIndex { (element) -> Bool in
             element.rawValue == AppData.shared.sensorType.rawValue
@@ -66,4 +71,7 @@ class FilterViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func cancel(_ sender: UIButton){
+        dismiss(animated: true, completion: nil)
+    }
 }
