@@ -36,17 +36,21 @@ class InfoViewController: UIViewController {
     var unit: String?
     @IBOutlet weak var unitLabel: UILabel!
     
+    let numberFormatter = NumberFormatter()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        numberFormatter.maximumFractionDigits = 4
 
+        let formattedValue = numberFormatter.string(from: NSNumber(value: value!))
+        
         cityLabel.text       = city.safelyUnwrappedValue
         locationLabel.text   = location.safelyUnwrappedValue
         parameterLabel.text  = parameter.safelyUnwrappedValue
         entityLabel.text     = entity.safelyUnwrappedValue
         sensorTypeLabel.text = sensorType.safelyUnwrappedValue
         unitLabel.text       = unit.safelyUnwrappedValue
-        let formattedValue   = String(format: "%.4f", value ?? 0)
-        valueLabel.text      = formattedValue
+        valueLabel.text      = formattedValue.safelyUnwrappedValue
 
         if let mobile = isMobile {
             mobileLabel.text = (mobile) ? "Mobile" : "Not mobile"
