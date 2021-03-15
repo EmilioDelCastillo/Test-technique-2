@@ -163,7 +163,7 @@ class MainViewController: UIViewController, MainViewDelegate {
         
     }
     
-    internal func createMarkers(completion: @escaping () -> Void) {
+    private func createMarkers(completion: @escaping () -> Void) {
 
         //FIXME: This needs to be thought in order to avoid duplicates 🤔
         

@@ -5,14 +5,13 @@
 //  Created by Emilio Del Castillo on 12/03/2021.
 //
 
-import UIKit
 import MapKit
 
 class LocationMark: NSObject, MKAnnotation {
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-    var identifier: Int
+    private(set) var coordinate: CLLocationCoordinate2D
+    private(set) var title: String?
+    private(set) var subtitle: String?
+    private(set) var identifier: Int
     
     init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, ID: Int) {
         self.coordinate = coordinate

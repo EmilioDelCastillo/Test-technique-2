@@ -9,9 +9,9 @@ import Foundation
 
 class AppData {
     static var shared = AppData()
-    var countries: [Country]!
-    var locations: [Location]!
-    var parameters: [Parameter]!
+    private(set) var countries: [Country]!
+    private(set) var locations: [Location]!
+    private(set) var parameters: [Parameter]!
     
     var isMobile = false
     var isAnalysis = false
