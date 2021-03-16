@@ -53,13 +53,13 @@ class InfoViewController: UIViewController {
         valueLabel.text      = formattedValue.safelyUnwrappedValue
 
         if let mobile = isMobile {
-            mobileLabel.text = (mobile) ? "Mobile" : "Not mobile"
+            mobileLabel.text = (mobile) ? "Location: Mobile" : "Location: Fixed"
         } else {
             mobileLabel.text = "unknown"
         }
         
         if let analysis = isAnalysis {
-            analysisLabel.text = (analysis) ? "Analysis" : "Not analysis"
+            analysisLabel.text = (analysis) ? "Data: Product of analysis/aggregation" : "Data: Raw"
         } else {
             analysisLabel.text = "unknown"
         }
