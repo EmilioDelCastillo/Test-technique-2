@@ -24,6 +24,7 @@ class FilterViewController: UIViewController {
     weak var delegate: MainViewDelegate?
     
     override func viewDidLoad() {
+        isModalInPresentation = true
         
         entityPicker.delegate = self
         entityPicker.dataSource = self
