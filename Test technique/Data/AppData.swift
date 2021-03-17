@@ -25,6 +25,7 @@ class AppData {
         Calendar.current.date(byAdding: .day, value: 1, to: dateToday)!
     }
     private var dateFormatter = DateFormatter()
+    
     /**
      Stores the countries from the API in RAM
      - Parameter completion: The closure to be executed once the data arrives. If there's an error, it is given as the argument.
@@ -59,6 +60,10 @@ class AppData {
         }
     }
     
+    /**
+     Stores the parameters from the API in RAM
+     - Parameter completion: The closure to be executed once the data arrives. If there's an error, it is given as the argument.
+     */
     func loadParameters(completion: @escaping (Error?) -> Void) {
         let url = URL(string: "https://docs.openaq.org/v2/parameters")
         
@@ -95,7 +100,11 @@ class AppData {
         }
     }
     
-    
+    /**
+     Gets the data from the API in RAM. The parameters for the request are set in AppData.
+     - Parameter countryCode: The country from which the data should be retrieved.
+     - Parameter completion: The closure to be executed once the data arrives. If there's an error, it is given as the argument.
+     */
     func getData(for countryCode: String, completion: @escaping (Error?) -> Void) {
         let limit = 10000
         

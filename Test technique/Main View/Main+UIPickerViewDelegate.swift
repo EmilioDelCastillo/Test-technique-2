@@ -23,6 +23,7 @@ extension MainViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
+        // The timer prevents the app from loading useless countries while the user is scrolling trough the list.
         func startTimer() {
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer) in
                 if countryCode != self.currentCountryCode {

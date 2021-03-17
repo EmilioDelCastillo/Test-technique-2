@@ -21,6 +21,7 @@ extension MainViewController {
                     destination.city = location.city
                     destination.location = location.location
                     
+                    // Get the corresponding parameter display name from the list of parameters
                     let parameterDisplayName = AppData.shared.parameters?.first { (param) -> Bool in
                         param.name == AppData.shared.parameter
                     }

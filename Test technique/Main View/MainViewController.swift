@@ -50,6 +50,10 @@ class MainViewController: UIViewController, MainViewDelegate {
     }
     
     // MARK: - Load data
+    
+    /**
+     Fetches the list of parameters frop the API. If the operation fails, it notifies the user.
+     */
     private func loadParameters() {
         AppData.shared.loadParameters { (error) in
             if error != nil {
@@ -75,6 +79,10 @@ class MainViewController: UIViewController, MainViewDelegate {
         }
     }
     
+    /**
+     Fetches the countries from the API.
+     If the operations fails, it notifies the user.
+     */
     private func loadCountries() {
         AppData.shared.loadCountries { (error) in
             if error == nil {
@@ -112,7 +120,7 @@ class MainViewController: UIViewController, MainViewDelegate {
     }
 
     /**
-        Puts the markers on the map view, if a country code is set
+        Removes any marker and puts the new markers on the map view, if a country code is set.
      */
     internal func loadDataToMapView() {
         DispatchQueue.main.async {
@@ -163,9 +171,11 @@ class MainViewController: UIViewController, MainViewDelegate {
         
     }
     
+    /**
+     Creates the markers that will be put on the map.
+     - Parameter completion: The closure to be executed once all the markers are created.
+     */
     private func createMarkers(completion: @escaping () -> Void) {
-
-        //FIXME: This needs to be thought in order to avoid duplicates 🤔
         
         // This operation can be expensive
         DispatchQueue.global(qos: .userInteractive).async {

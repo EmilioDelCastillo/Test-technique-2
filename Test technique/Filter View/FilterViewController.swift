@@ -44,6 +44,8 @@ class FilterViewController: UIViewController {
         loadButton.layer.cornerRadius = radius
         cancelButton.layer.cornerRadius = radius
         
+        // The three following "blocks" make sure that the picker views are set
+        // with the last selected values.
         var row = SensorType.allCases.firstIndex { (element) -> Bool in
             element.rawValue == AppData.shared.sensorType.rawValue
         }

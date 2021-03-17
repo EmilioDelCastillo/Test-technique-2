@@ -42,6 +42,7 @@ class InfoViewController: UIViewController {
         super.viewDidLoad()
         numberFormatter.maximumFractionDigits = 4
 
+        // Neatly display the value.
         let formattedValue = numberFormatter.string(from: NSNumber(value: value!))
         
         cityLabel.text       = (city ?? location.safelyUnwrappedValue)
