@@ -173,8 +173,12 @@ class MainViewController: UIViewController, MainViewDelegate {
                 if let lat = loc.coordinates?.latitude, let lon = loc.coordinates?.longitude {
                     
                     let annotationLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                    
+                    // Community sensors usually have the city name as location name
+                    let title = loc.city ?? loc.location.safelyUnwrappedValue
+                    
                     let annotation = LocationMark(coordinate: annotationLocation,
-                                                  title: loc.city.safelyUnwrappedValue,
+                                                  title: title,
                                                   subtitle: loc.location,
                                                   ID: loc.locationId!)
                     

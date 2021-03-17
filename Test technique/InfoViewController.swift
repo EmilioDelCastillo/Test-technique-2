@@ -44,24 +44,24 @@ class InfoViewController: UIViewController {
 
         let formattedValue = numberFormatter.string(from: NSNumber(value: value!))
         
-        cityLabel.text       = city.safelyUnwrappedValue
+        cityLabel.text       = (city ?? location.safelyUnwrappedValue)
         locationLabel.text   = location.safelyUnwrappedValue
         parameterLabel.text  = parameter.safelyUnwrappedValue
-        entityLabel.text     = entity.safelyUnwrappedValue
-        sensorTypeLabel.text = sensorType.safelyUnwrappedValue
+        entityLabel.text     = entity.safelyUnwrappedValue.localizedCapitalized
+        sensorTypeLabel.text = sensorType.safelyUnwrappedValue.localizedCapitalized
         unitLabel.text       = unit.safelyUnwrappedValue
         valueLabel.text      = formattedValue.safelyUnwrappedValue
 
         if let mobile = isMobile {
             mobileLabel.text = (mobile) ? "Location: Mobile" : "Location: Fixed"
         } else {
-            mobileLabel.text = "unknown"
+            mobileLabel.text = "Unknown"
         }
         
         if let analysis = isAnalysis {
             analysisLabel.text = (analysis) ? "Data: Product of analysis/aggregation" : "Data: Raw"
         } else {
-            analysisLabel.text = "unknown"
+            analysisLabel.text = "Unknown"
         }
         
     }

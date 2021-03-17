@@ -13,11 +13,11 @@ extension MainViewController: MKMapViewDelegate {
         
         var annotationView: MKMarkerAnnotationView?
         
-        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "test") as? MKMarkerAnnotationView {
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "locMark") as? MKMarkerAnnotationView {
             annotationView = dequeuedAnnotationView
             annotationView?.annotation = annotation
         } else {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "test")
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "locMark")
         }
         
         annotationView?.canShowCallout = true
